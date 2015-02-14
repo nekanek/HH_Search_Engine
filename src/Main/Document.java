@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-package search;
+package Main;
 
 
-class Document {
+public class Document {
     private final int id;
     private final String text;
     
