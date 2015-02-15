@@ -2,7 +2,7 @@ package searchLogic;
 
 import java.util.HashMap;
 import java.util.PriorityQueue;
-import Main.Document;
+import main.Document;
 import org.json.simple.JSONObject;
 
 public final class Index {
