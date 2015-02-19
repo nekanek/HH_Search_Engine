@@ -3,7 +3,8 @@
 <body>
 
 <h3>Find documents </h3>
-<form method="GET" action="/Search-Engine/search"/>
+<form method="GET" action="/search"/>
+<!--<form method="GET" action="/Search-Engine/search"/>-->
 
 Enter your query:<br>
 <input name="query" type="text" /><br>
@@ -18,7 +19,8 @@ Enter max number of results to be displayed (10 by default):<br>
 </form>
 
 <h3>Add documents to collection</h3>
-<form method="POST" action="/Search-Engine/index"  enctype="application/json">
+<form method="POST" action="/index"  enctype="application/json">
+    <!--<form method="POST" action="/Search-Engine/index"  enctype="application/json">-->
   <input name='id' type="text" >
   <input name='text' type="text" >
   <input type="submit" value="Submit" />
