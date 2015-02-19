@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <display-name>Example</display-name>
+
+  <!-- Declare the existence of a servlet. -->
+  <servlet>
+    <servlet-name>RequestHandler</servlet-name>
+    <servlet-class>RequestHandler</servlet-class>
+  </servlet>
+
+  <!-- Map URLs to that servlet. -->
+  <servlet-mapping>
+    <servlet-name>RequestHandler</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
+  
+    <servlet-mapping>
+    <servlet-name>RequestHandler</servlet-name>
+    <url-pattern>/search</url-pattern>
+  </servlet-mapping>
+</web-app>
