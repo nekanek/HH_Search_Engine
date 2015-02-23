@@ -29,7 +29,7 @@ import org.tartarus.snowball.SnowballStemmer;
 
 
 public class SearchEngine {
-    private static final String CHARSET = "UTF-8";
+    private static final String CHARSET = "UTF-16";
     private static final String STOP_FILE_ENG = "/docroot/resourses/englishStopList";
     private static final String STOP_FILE_RUS = "/docroot/resourses/russianStopList";
 //    private static final String DEFAULT_LOGIC = "and";
@@ -54,6 +54,7 @@ public class SearchEngine {
     
     public static ArrayList<Integer> findDocuments(String query, HashMap<String, PriorityQueue<Integer>> index, String logic, HashMap<Integer, Document> docs) {
 //        if (!logic.equals("or")) logic = DEFAULT_LOGIC;
+//        Charset.forName("UTF-16").encode(query);
         ArrayList<Integer> results= new ArrayList<>();
         try {
             ArrayList<String> qWords = stopAndStemmerize(tokenize(query));
@@ -209,11 +210,14 @@ public class SearchEngine {
 //      return words;
 //    } 
     
+    // do smth about encoding
     public  static ArrayList<String> stopAndStemmerize(ArrayList<String> words) throws Exception {
         String lang = "english";
         for (String word : words) {
-            if(word.matches("[а-я]*")) { lang = "russian"; break; }
-            if(word.matches("[a-z]*")) { lang = "english"; break; }
+//            String s = "яя";
+//            System.out.println(s.matches("[\\p{IsCyrillic}]+"));
+            if(word.matches("[\\p{IsCyrillic}]+")) {lang = "russian"; break; }
+            if(word.matches("[a-zA-Z]")) {lang = "english"; break; }
         }
       
         HashSet<String> stopList = getStopList(lang);
@@ -227,18 +231,19 @@ public class SearchEngine {
             stemmer.setCurrent(word);
             stemmer.stem();
             result.add(stemmer.getCurrent());
-        }
+        }       
+//        System.out.println(result.toString());
         return result;
     } 
     
     public static HashSet<String> getStopList (String lang) {
         
-        Charset charset = Charset.forName(CHARSET);
+//        Charset charset = Charset.forName(CHARSET);
         try {
             BufferedReader reader;
             switch (lang) {
                 case "russian":
-                    reader = Files.newBufferedReader(Paths.get(STOP_FILE_RUS), charset);
+                    reader = Files.newBufferedReader(Paths.get(System.getProperty("com.sun.aas.instanceRoot") + STOP_FILE_RUS));
                     break;
                 case "english":
                 default:

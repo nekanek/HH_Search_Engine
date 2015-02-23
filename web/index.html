@@ -1,5 +1,9 @@
+<!DOCTYPE html>
 <html>
-<head><title>Search engine for HH dev school</title></head>
+<head><title>Search engine for HH dev school</title>
+ <!--<page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"-->
+<meta charset="UTF-8">
+</head>
 <body>
 
 <h3>Find documents </h3>
@@ -21,8 +25,10 @@ Enter max number of results to be displayed (10 by default):<br>
 <h3>Add documents to collection</h3>
 <form method="POST" action="/index"  enctype="application/json">
     <!--<form method="POST" action="/Search-Engine/index"  enctype="application/json">-->
-  <input name='id' type="text" >
-  <input name='text' type="text" >
+  Enter id of your document:
+  <input name='id' type="text" > <br>
+  Enter text of your document:
+  <input name='text' type="text" > <br>
   <input type="submit" value="Submit" />
 </form>    
   

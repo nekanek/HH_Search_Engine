@@ -1,6 +1,7 @@
 
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ public class RequestHandler extends HttpServlet
         throws ServletException, IOException
     {
         String query = req.getParameter("query");
-        
+        URLEncoder.encode(query, "UTF-8");
         String logic = req.getParameter("logic").toLowerCase();
         
         String textCount = req.getParameter("count");
