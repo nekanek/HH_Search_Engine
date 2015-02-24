@@ -13,12 +13,12 @@ import static searchLogic.SearchEngine.tokenize;
 
 
 public class Document {
-    private final int id;
+    private final String id;
     private final String text;
     private final ArrayList<String> words;
     private final HashMap<String, Double> relevancy = new HashMap<>();
     
-    public Document(int i, String text) throws Exception{
+    public Document(String i, String text) throws Exception{
         this.id = i;
         this.text = text;
         this.words = stopAndStemmerize(tokenize(text));
@@ -33,7 +33,7 @@ public class Document {
         return text;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

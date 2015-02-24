@@ -3,7 +3,6 @@ package searchLogic;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 import main.Document;
-import org.json.simple.JSONObject;
 
 public final class Index {
 //    private HashMap<String, PriorityQueue<Integer>> index;

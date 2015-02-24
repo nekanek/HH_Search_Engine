@@ -29,7 +29,7 @@ import org.tartarus.snowball.SnowballStemmer;
 
 
 public class SearchEngine {
-    private static final String CHARSET = "UTF-16";
+    private static final String CHARSET = "UTF-8";
     private static final String STOP_FILE_ENG = "/docroot/resourses/englishStopList";
     private static final String STOP_FILE_RUS = "/docroot/resourses/russianStopList";
 //    private static final String DEFAULT_LOGIC = "and";
@@ -42,17 +42,21 @@ public class SearchEngine {
             this.id = id;
             this.relevancy = relevancy;
         }
+        @Override
+        public String toString() {
+            return "(id:" + id + ", relevancy:" + relevancy +")"; //To change body of generated methods, choose Tools | Templates.
+        }
         
     }
     
     private static class relevancyComparator implements Comparator<Pair> {
         @Override
         public int compare(Pair a, Pair b) {
-        return Double.compare(a.relevancy, b.relevancy); //reversed order comparator
+        return Double.compare(a.relevancy, b.relevancy); 
         }
     }
     
-    public static ArrayList<Integer> findDocuments(String query, HashMap<String, PriorityQueue<Integer>> index, String logic, HashMap<Integer, Document> docs) {
+    public static ArrayList<String> findDocuments(String query, HashMap<String, PriorityQueue<Integer>> index, String logic, HashMap<String, Document> docs) {
 //        if (!logic.equals("or")) logic = DEFAULT_LOGIC;
 //        Charset.forName("UTF-16").encode(query);
         ArrayList<Integer> results= new ArrayList<>();
@@ -63,11 +67,16 @@ public class SearchEngine {
         } catch (Exception ex) {
             Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return results;    
+        ArrayList<String> stringResults = new ArrayList<>();
+        for (Integer result : results) {
+            stringResults.add(result.toString());
+        }
+        
+        return stringResults;    
     }
 
     // so ugly, rewrite !!!!
-    public static ArrayList<Integer> andLogicSearch (ArrayList<String> qWords, HashMap<String, PriorityQueue<Integer>> index, HashMap<Integer, Document> docs) {
+    public static ArrayList<Integer> andLogicSearch (ArrayList<String> qWords, HashMap<String, PriorityQueue<Integer>> index, HashMap<String, Document> docs) {
         ArrayList<PriorityQueue<Integer>> terms = new ArrayList<>();
         for (String qWord : qWords) {
             if (index.containsKey(qWord)) {
@@ -108,8 +117,9 @@ public class SearchEngine {
 
         double docRelevancy;
         for (Integer id : docResults) {
+            String s = id.toString();
             docRelevancy = 0;
-            HashMap<String, Double> relevancy = docs.get(id).getRelevancy();
+            HashMap<String, Double> relevancy = docs.get(s).getRelevancy();
             for (String qWord : qWords) {
                 if (relevancy.containsKey(qWord))
                     docRelevancy += relevancy.get(qWord);
@@ -117,6 +127,7 @@ public class SearchEngine {
             allDocsRelevancy.add(new Pair(id, docRelevancy));
         }
         Collections.sort(allDocsRelevancy, new relevancyComparator());
+        System.out.println(allDocsRelevancy.toString());
         for (Pair p : allDocsRelevancy) {
             results.add(p.id);
         }
@@ -124,7 +135,7 @@ public class SearchEngine {
                 
     }
     
-    public static ArrayList<Integer> orLogicSearch (ArrayList<String> qWords, HashMap<String, PriorityQueue<Integer>> index, HashMap<Integer, Document> docs) {
+    public static ArrayList<Integer> orLogicSearch (ArrayList<String> qWords, HashMap<String, PriorityQueue<Integer>> index, HashMap<String, Document> docs) {
         ArrayList<PriorityQueue<Integer>> terms = new ArrayList<>();
         for (String qWord : qWords) {
             if (index.containsKey(qWord)) {
@@ -155,13 +166,14 @@ public class SearchEngine {
         }
         //end of unique OR logic part
         
-        System.out.println("docResalts " + docResults);
+        System.out.println("docResalts " + docResults.toString());
         
         ArrayList<Pair> allDocsRelevancy = new ArrayList<>();
         double docRelevancy;
         for (Integer id : docResults) {
+            String s = id.toString();
             docRelevancy = 0;
-            HashMap<String, Double> relevancy = docs.get(id).getRelevancy();
+            HashMap<String, Double> relevancy = docs.get(s).getRelevancy();
             for (String qWord : qWords) {
                 if (relevancy.containsKey(qWord))
                     docRelevancy += relevancy.get(qWord);
@@ -238,12 +250,12 @@ public class SearchEngine {
     
     public static HashSet<String> getStopList (String lang) {
         
-//        Charset charset = Charset.forName(CHARSET);
+        Charset charset = Charset.forName(CHARSET);
         try {
             BufferedReader reader;
             switch (lang) {
                 case "russian":
-                    reader = Files.newBufferedReader(Paths.get(System.getProperty("com.sun.aas.instanceRoot") + STOP_FILE_RUS));
+                    reader = Files.newBufferedReader(Paths.get(System.getProperty("com.sun.aas.instanceRoot") + STOP_FILE_RUS), charset);
                     break;
                 case "english":
                 default:

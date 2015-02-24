@@ -21,7 +21,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         
-        HashMap<Integer, Document> docs = createDocs();
+        HashMap<String, Document> docs = createDocs();
         
         HashMap<String, PriorityQueue<Integer>> index = createIndex(docs);
         
@@ -41,23 +41,23 @@ public class Main {
 //        System.out.println(SearchEngine.getStopList("english").toString());
 //        System.out.println("size "+SearchEngine.getStopList("english").size());
         
-        String query="some";
-        System.out.println("Query: " + query);
-        ArrayList<Integer> resultsList = findDocuments(query, index, "and", null);
-        for (Integer i : resultsList) {
-            System.out.println(docs.get(i));
-        }
+//        String query="some";
+//        System.out.println("Query: " + query);
+//        ArrayList<Integer> resultsList = findDocuments(query, index, "and", null);
+//        for (Integer i : resultsList) {
+//            System.out.println(docs.get(i));
+//        }
         
     }
     
-    public static HashMap<Integer, Document> createDocs() {
-        HashMap<Integer, Document> docs = new HashMap<>();
+    public static HashMap<String, Document> createDocs() {
+        HashMap<String, Document> docs = new HashMap<>();
 //        docs.put(1, new Document(1, "Some quoted text will b here"));
 //        docs.put(2, new Document(2, "Another quoted text will b here"));
         return docs;
     }  
     
-    public static HashMap<String, PriorityQueue<Integer>> createIndex(HashMap<Integer, Document> docs) {
+    public static HashMap<String, PriorityQueue<Integer>> createIndex(HashMap<String, Document> docs) {
 //        HashMap<String, PriorityQueue<Document>> index = new HashMap<>();
         HashMap<String, PriorityQueue<Integer>> index = new HashMap<>();
         
