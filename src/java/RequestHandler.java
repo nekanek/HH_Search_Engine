@@ -42,20 +42,28 @@ public class RequestHandler extends HttpServlet
 //        out.println("<meta charset=\"UTF-8\">");
         ArrayList<String> resultsList = findDocuments(query, index, logic, docs);
 //        Map jsonMap = new LinkedHashMap();
-//        System.out.println(resultsList);
-        JSONObject output = new JSONObject();
-        try {
+        System.out.println("resList" + resultsList);
+        
+        
+//        JSONObject output = new JSONObject();
+//        try {
+            String result = "{";
             for (String i : resultsList) {
                 if (count == 0) break;
-                output.append(i,docs.get(i).getText());
-//                Logger.getLogger(RequestHandler.class.getName()).log(Level.SEVERE, null, ex);
-//                out.println("<br>");
+                System.out.println("i"+i);
+//                output.append(i,docs.get(i).getText());
+//                result += "\"id\":";
+                result += "\""+ i+ "\":\"" + docs.get(i).getText() + "\",";
                 count--;
             }
-            System.out.println(output.toString());
+            result += "}";
+            System.out.println(result);
+            out.print(result);
+            //            JSONObject output = new JSONObject(result);
+//            System.out.println(output.toString());
 //                output.write(out); //.writeJSONString(jsonMap, out);
-            out.print(output);
-            out.flush();
+            //            out.print(output);
+            //            out.flush();
 
     //        JSONObject json=new JSONObject();
     //        ArrayList<Integer> resultsList = findDocuments(query, index, logic, docs);
@@ -76,9 +84,9 @@ public class RequestHandler extends HttpServlet
     //        }
     //        out.println("</body>");
     //        out.println("</html>");
-            } catch (JSONException ex) {
-                Logger.getLogger(RequestHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            } catch (JSONException ex) {
+//                Logger.getLogger(RequestHandler.class.getName()).log(Level.SEVERE, null, ex);
+//            }
     }
 
     @Override

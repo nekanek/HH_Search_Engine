@@ -34,7 +34,7 @@ public class SearchEngine {
     private static final String STOP_FILE_RUS = "/docroot/resourses/russianStopList";
 //    private static final String DEFAULT_LOGIC = "and";
     
-    private static class Pair {
+    private static class Pair implements Comparable<Pair>{
         int id;
         double relevancy;
 
@@ -46,15 +46,21 @@ public class SearchEngine {
         public String toString() {
             return "(id:" + id + ", relevancy:" + relevancy +")"; //To change body of generated methods, choose Tools | Templates.
         }
+
+        @Override
+        public int compareTo(Pair o) {
+            return -1 * Double.compare(this.relevancy, o.relevancy);
+        }
+        
         
     }
     
-    private static class relevancyComparator implements Comparator<Pair> {
-        @Override
-        public int compare(Pair a, Pair b) {
-        return Double.compare(a.relevancy, b.relevancy); 
-        }
-    }
+//    private static class relevancyComparator implements Comparator<Pair> {
+//        @Override
+//        public int compare(Pair a, Pair b) {
+//        return -1 * Double.compare(a.relevancy, b.relevancy); 
+//        }
+//    }
     
     public static ArrayList<String> findDocuments(String query, HashMap<String, PriorityQueue<Integer>> index, String logic, HashMap<String, Document> docs) {
 //        if (!logic.equals("or")) logic = DEFAULT_LOGIC;
@@ -68,10 +74,11 @@ public class SearchEngine {
             Logger.getLogger(SearchEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
         ArrayList<String> stringResults = new ArrayList<>();
+        System.out.println("result: " + results);
         for (Integer result : results) {
             stringResults.add(result.toString());
         }
-        
+        System.out.println("stringed res " + stringResults);
         return stringResults;    
     }
 
@@ -126,11 +133,19 @@ public class SearchEngine {
             }
             allDocsRelevancy.add(new Pair(id, docRelevancy));
         }
-        Collections.sort(allDocsRelevancy, new relevancyComparator());
+//        Collections.sort(allDocsRelevancy, new relevancyComparator());
+        Collections.sort(allDocsRelevancy);
+//        Pair p1 = new Pair(1, 0.5);
+//        Pair p2 = new Pair(2, 1.5);
+//        System.out.println(p1.compareTo(p2));
+//        ArrayList<Pair> test = new ArrayList<>();
+//        test.add(p2)
+        System.out.println("allDocRel" + allDocsRelevancy.toString());
         System.out.println(allDocsRelevancy.toString());
         for (Pair p : allDocsRelevancy) {
             results.add(p.id);
         }
+        System.out.println("results ordered" + results.toString());
         return results;
                 
     }
@@ -180,10 +195,11 @@ public class SearchEngine {
             }
             allDocsRelevancy.add(new Pair(id, docRelevancy));
         }
-        Collections.sort(allDocsRelevancy, new relevancyComparator());
+        Collections.sort(allDocsRelevancy);
         for (Pair p : allDocsRelevancy) {
             results.add(p.id);
         }
+        
         return results;
                 
     }    
